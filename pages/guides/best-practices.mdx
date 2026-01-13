@@ -1,0 +1,246 @@
+---
+title: Best Practices
+description: Best practices for using Mumin API
+---
+
+import { Callout } from 'nextra/components'
+import { CodePlayground } from '@/components/CodePlayground'
+
+# Best Practices
+
+Follow these best practices to get the most out of Mumin API.
+
+## Authentication
+
+### Secure Your API Keys
+
+<Callout type="warning">
+  **Never** commit API keys to version control or expose them in client-side code.
+</Callout>
+
+**✅ Good:**
+```javascript
+// Use environment variables
+const apiKey = process.env.MUMIN_API_KEY
+```
+
+**❌ Bad:**
+```javascript
+// Don't hardcode keys
+const apiKey = 'sk_mumin_abc123...'
+```
+
+### Rotate Keys Regularly
+
+Rotate your API keys every 90 days for security.
+
+## Rate Limiting
+
+### Implement Exponential Backoff
+
+<CodePlayground
+  language="javascript"
+  code={`async function fetchWithBackoff(url, options, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const response = await fetch(url, options)
+      
+      if (response.ok) {
+        return await response.json()
+      }
+      
+      if (response.status === 429) {
+        const delay = Math.pow(2, i) * 1000
+        console.log(\`Rate limited. Waiting \${delay}ms...\`)
+        await new Promise(resolve => setTimeout(resolve, delay))
+        continue
+      }
+      
+      throw new Error(\`HTTP \${response.status}\`)
+    } catch (error) {
+      if (i === maxRetries - 1) throw error
+    }
+  }
+}`}
+  runnable
+/>
+
+### Monitor Rate Limits
+
+```javascript
+const response = await fetch('...')
+const remaining = response.headers.get('X-RateLimit-Remaining')
+const reset = response.headers.get('X-RateLimit-Reset')
+
+if (parseInt(remaining) < 10) {
+  console.warn('Rate limit almost exceeded!')
+}
+```
+
+## Caching
+
+### Cache Responses
+
+<Callout type="info">
+  API responses are cached for 24 hours. Implement your own caching for better performance.
+</Callout>
+
+```javascript
+const cache = new Map()
+
+async function getCachedHadith(id) {
+  if (cache.has(id)) {
+    return cache.get(id)
+  }
+  
+  const hadith = await fetchHadith(id)
+  cache.set(id, hadith)
+  
+  // Expire after 1 hour
+  setTimeout(() => cache.delete(id), 3600000)
+  
+  return hadith
+}
+```
+
+## Error Handling
+
+### Handle All Error Cases
+
+```javascript
+try {
+  const hadith = await client.hadiths.get(id)
+} catch (error) {
+  if (error.code === 'NOT_FOUND') {
+    // Handle missing hadith
+  } else if (error.code === 'RATE_LIMIT_EXCEEDED') {
+    // Wait and retry
+  } else if (error.code === 'BALANCE_DEPLETED') {
+    // Notify user to top up
+  } else {
+    // Log unexpected errors
+    console.error('Unexpected error:', error)
+  }
+}
+```
+
+## Performance
+
+### Use Pagination
+
+Don't fetch all hadiths at once. Use pagination:
+
+```javascript
+async function getAllHadiths() {
+  const limit = 100
+  let offset = 0
+  const allHadiths = []
+  
+  while (true) {
+    const response = await client.hadiths.list({ limit, offset })
+    allHadiths.push(...response.data)
+    
+    if (response.data.length < limit) break
+    offset += limit
+  }
+  
+  return allHadiths
+}
+```
+
+### Request Only Needed Languages
+
+```javascript
+// ✅ Good - only request needed languages
+const hadith = await client.hadiths.get(1, { lang: 'en' })
+
+// ❌ Bad - requesting all languages
+const hadith = await client.hadiths.get(1, { lang: 'ar,en,ru,uz' })
+```
+
+## Security
+
+### Use HTTPS Only
+
+Always use HTTPS in production:
+
+```javascript
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://api.mumin.ink/v1'
+  : 'http://localhost:3000/v1'
+```
+
+### Validate Input
+
+```javascript
+function validateHadithId(id) {
+  const numId = parseInt(id)
+  if (isNaN(numId) || numId < 1 || numId > 7563) {
+    throw new Error('Invalid hadith ID')
+  }
+  return numId
+}
+```
+
+## Monitoring
+
+### Log Request IDs
+
+Always log `requestId` for debugging:
+
+```javascript
+try {
+  const hadith = await client.hadiths.get(id)
+} catch (error) {
+  console.error('Request failed:', {
+    requestId: error.requestId,
+    error: error.message
+  })
+}
+```
+
+### Track Usage
+
+Monitor your API usage:
+
+```javascript
+let requestCount = 0
+
+async function trackRequest(fn) {
+  requestCount++
+  console.log(`Total requests: ${requestCount}`)
+  return await fn()
+}
+```
+
+## Cost Optimization
+
+### Batch Requests
+
+Instead of making multiple requests, batch them:
+
+```javascript
+// ✅ Good - batch requests
+const hadiths = await Promise.all([
+  client.hadiths.get(1),
+  client.hadiths.get(2),
+  client.hadiths.get(3)
+])
+
+// ❌ Bad - sequential requests
+const h1 = await client.hadiths.get(1)
+const h2 = await client.hadiths.get(2)
+const h3 = await client.hadiths.get(3)
+```
+
+### Use Search Wisely
+
+Search is more expensive than direct access:
+
+```javascript
+// ✅ Good - if you know the ID
+const hadith = await client.hadiths.get(1)
+
+// ❌ Bad - using search when ID is known
+const results = await client.hadiths.search('hadith 1')
+```

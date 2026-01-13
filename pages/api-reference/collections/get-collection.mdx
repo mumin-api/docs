@@ -1,0 +1,42 @@
+---
+title: Get Collection
+description: Get detailed information about a specific collection
+---
+
+import { ApiEndpoint } from '@/components/ApiEndpoint'
+import { InteractiveExample } from '@/components/InteractiveExample'
+
+# Get Collection
+
+Retrieve detailed metadata for a specific Hadith collection using its slug.
+
+<ApiEndpoint method="GET" path="/collections/:slug" auth="required" />
+
+## Path Parameters
+
+| Parameter | Type   | Description                                   |
+| --------- | ------ | --------------------------------------------- |
+| `slug`    | string | The collection slug (e.g., `sahih-bukhari`) |
+
+## Response
+
+Returns a single collection object.
+
+```json
+{
+  "id": 1,
+  "nameEnglish": "Sahih al-Bukhari",
+  "nameArabic": "صحيح البخاري",
+  "slug": "sahih-bukhari",
+  "description": "The most authentic collection of Hadith...",
+  "totalHadith": 7563
+}
+```
+
+## Try It Live! 🔍
+
+<InteractiveExample
+  method="GET"
+  endpoint="/collections/sahih-bukhari"
+  requiresAuth={true}
+/>

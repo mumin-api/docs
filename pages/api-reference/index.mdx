@@ -1,0 +1,105 @@
+---
+title: API Reference
+description: Complete API endpoint documentation
+---
+
+# API Reference
+
+Complete reference for all Mumin Hadith API endpoints.
+
+## Base URL
+
+```
+https://api.mumin.ink/v1
+```
+
+## Authentication
+
+All endpoints require an API key in the `Authorization` header:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+Get your API key from [dashboard.mumin.ink](https://dashboard.mumin.ink)
+
+## Endpoints
+
+### Hadiths
+
+- [Get Hadith by ID](/api-reference/hadiths/get-hadith) - Retrieve a single hadith
+- [List Hadiths](/api-reference/hadiths/list-hadiths) - Get paginated list
+- [Search Hadiths](/api-reference/hadiths/search-hadiths) - Full-text search
+- [Random Hadith](/api-reference/hadiths/random-hadith) - Get random hadith
+- [Daily Hadith](/api-reference/hadiths/daily-hadith) - Featured daily hadith
+
+### Collections
+
+- [List Collections](/api-reference/collections/list-collections) - Get all collections
+- [Get Collection](/api-reference/collections/get-collection) - Detailed metadata
+
+### Books
+
+- [List Books](/api-reference/books) - Get all books
+
+## Rate Limits
+
+- **100 requests per minute** per API key
+- **1,000 requests per hour** per IP address
+
+See [Rate Limits](/api-reference/rate-limits) for details.
+
+## Error Codes
+
+All errors follow a consistent format. See [Error Codes](/api-reference/errors) for complete list.
+
+## Response Format
+
+All successful responses return JSON:
+
+```json
+{
+  "id": 1,
+  "collection": "Sahih al-Bukhari",
+  "collectionId": 1,
+  "bookNumber": 1,
+  "hadithNumber": 1,
+  "arabicText": "...",
+  "translation": {
+    "text": "...",
+    "languageCode": "en"
+  }
+}
+```
+
+## Quick Links
+
+<div className="grid md:grid-cols-2 gap-6 my-8">
+  <a href="/api-reference/hadiths/get-hadith" className="doc-card">
+    <h3 className="text-lg font-display text-emerald-900 mb-2">Get Hadith</h3>
+    <p className="text-sm text-charcoal/60 font-body">
+      Retrieve a single hadith by ID
+    </p>
+  </a>
+
+  <a href="/api-reference/hadiths/search-hadiths" className="doc-card">
+    <h3 className="text-lg font-display text-emerald-900 mb-2">Search</h3>
+    <p className="text-sm text-charcoal/60 font-body">
+      Full-text search across hadiths
+    </p>
+  </a>
+
+  <a href="/api-reference/errors" className="doc-card">
+    <h3 className="text-lg font-display text-emerald-900 mb-2">Error Codes</h3>
+    <p className="text-sm text-charcoal/60 font-body">
+      Complete error reference
+    </p>
+  </a>
+
+  <a href="/api-reference/rate-limits" className="doc-card">
+    <h3 className="text-lg font-display text-emerald-900 mb-2">Rate Limits</h3>
+    <p className="text-sm text-charcoal/60 font-body">
+      Usage limits and quotas
+    </p>
+  </a>
+</div>

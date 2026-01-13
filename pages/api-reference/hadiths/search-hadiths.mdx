@@ -1,0 +1,65 @@
+---
+title: Search Hadiths
+description: Full-text search across hadiths
+---
+
+import { ApiEndpoint } from '@/components/ApiEndpoint'
+import { ResponseExample } from '@/components/ResponseExample'
+import { InteractiveExample } from '@/components/InteractiveExample'
+import { LanguageTabs, Tab } from '@/components/LanguageTabs'
+
+# Search Hadiths
+
+Perform full-text search across all hadiths.
+
+<ApiEndpoint method="GET" path="/hadiths/search" auth="required" />
+
+## Query Parameters
+
+| Parameter  | Type    | Default | Description                |
+| ---------- | ------- | ------- | -------------------------- |
+| `q`        | string  | -       | **Required.** Search query |
+| `language` | string  | `"en"`  | Result language            |
+| `page`     | integer | `1`     | Page number                |
+| `limit`    | integer | `20`    | Results per page           |
+
+## Response
+
+<ResponseExample
+  status={200}
+  data={{
+    data: [
+      {
+        id: 1,
+        collection: "Sahih al-Bukhari",
+        collectionId: 1,
+        bookNumber: 1,
+        hadithNumber: 1,
+        arabicText: "...",
+        translation: {
+          text: "..."
+        }
+      }
+    ],
+    pagination: {
+      page: 1,
+      limit: 20,
+      total: 42,
+      totalPages: 3,
+      hasNext: true,
+      hasPrev: false
+    }
+  }}
+/>
+
+## Try It Live! 🔥
+
+<InteractiveExample
+  method="GET"
+  endpoint="/hadiths/search"
+  queryParams={[
+    { name: 'q', value: 'prayer', type: 'text' },
+    { name: 'language', value: 'en', type: 'text' }
+  ]}
+  requiresAuth={true}
+/>

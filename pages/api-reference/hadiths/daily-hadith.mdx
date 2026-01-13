@@ -1,0 +1,49 @@
+---
+title: Daily Hadith
+description: Get the featured hadith of the day
+---
+
+import { ApiEndpoint } from '@/components/ApiEndpoint'
+import { InteractiveExample } from '@/components/InteractiveExample'
+
+# Daily Hadith
+
+Retrieve a consistent "Hadith of the Day". This endpoint uses the current date to select a specific hadith, ensuring all users see the same featured content each day.
+
+<ApiEndpoint method="GET" path="/hadiths/daily" auth="required" />
+
+## Query Parameters
+
+| Parameter | Type   | Default | Description   |
+| --------- | ------ | ------- | ------------- |
+| `lang`    | string | `"en"`  | Language code |
+
+## Response
+
+Returns a single hadith object.
+
+```json
+{
+  "id": 123,
+  "collection": "Sahih al-Bukhari",
+  "bookNumber": 1,
+  "hadithNumber": 1,
+  "arabicText": "...",
+  "translation": {
+    "id": 1,
+    "languageCode": "en",
+    "text": "Actions are but by intentions..."
+  }
+}
+```
+
+## Try It Live! 🌟
+
+<InteractiveExample
+  method="GET"
+  endpoint="/hadiths/daily"
+  queryParams={[
+    { name: 'lang', value: 'en', type: 'text' }
+  ]}
+  requiresAuth={true}
+/>

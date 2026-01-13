@@ -1,0 +1,46 @@
+---
+title: List Collections
+description: Get all available Hadith collections
+---
+
+import { ApiEndpoint } from '@/components/ApiEndpoint'
+import { InteractiveExample } from '@/components/InteractiveExample'
+
+# List Collections
+
+Retrieve a list of all available Hadith collections in the Mumin library.
+
+<ApiEndpoint method="GET" path="/collections" auth="required" />
+
+## Response
+
+Returns an array of collection objects.
+
+```json
+[
+  {
+    "id": 1,
+    "nameEnglish": "Sahih al-Bukhari",
+    "nameArabic": "صحيح البخاري",
+    "slug": "sahih-bukhari",
+    "description": "The most authentic collection of Hadith...",
+    "totalHadith": 7563
+  },
+  {
+    "id": 2,
+    "nameEnglish": "Sahih Muslim",
+    "nameArabic": "صحيح مسلم",
+    "slug": "sahih-muslim",
+    "description": "Highly acclaimed collection of authentic sayings...",
+    "totalHadith": 7190
+  }
+]
+```
+
+## Try It Live! 📚
+
+<InteractiveExample
+  method="GET"
+  endpoint="/collections"
+  requiresAuth={true}
+/>

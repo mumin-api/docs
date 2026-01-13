@@ -1,0 +1,179 @@
+---
+title: JavaScript SDK
+description: Official Node.js and browser SDK
+---
+
+import { CodePlayground } from '@/components/CodePlayground'
+import { LanguageTabs, Tab } from '@/components/LanguageTabs'
+
+# JavaScript SDK
+
+Official JavaScript/TypeScript SDK for Mumin Hadith API.
+
+## Installation
+
+```bash
+npm install mumin-hadith-api
+# or
+yarn add mumin-hadith-api
+```
+
+## Quick Start
+
+<CodePlayground
+  language="javascript"
+  code={`import { MuminAPI } from 'mumin-hadith-api'
+
+const client = new MuminAPI('YOUR_API_KEY')
+
+// Get a hadith
+const hadith = await client.hadiths.get(1, { lang: 'en' })
+console.log(hadith.translations.en.text)
+
+// Search hadiths
+const results = await client.hadiths.search('intention', { lang: 'en' })
+console.log(\`Found \${results.total} hadiths\`)
+
+// Random hadith
+const random = await client.hadiths.random({ lang: 'ru' })
+console.log(random.translations.ru.text)`}
+  runnable
+/>
+
+## Client Configuration
+
+```javascript
+const client = new MuminAPI('YOUR_API_KEY', {
+  baseURL: 'https://api.mumin.ink/v1',
+  timeout: 5000,
+  retries: 3,
+  headers: {
+    'User-Agent': 'MyApp/1.0'
+  }
+})
+```
+
+## API Methods
+
+### Get by ID
+
+```typescript
+client.hadiths.get(
+  id: number,
+  options?: {
+    lang?: string | string[]
+    includeArabic?: boolean
+  }
+): Promise<Hadith>
+```
+
+**Example:**
+
+```javascript
+const hadith = await client.hadiths.get(1, {
+  lang: ['en', 'ru'],
+  includeArabic: true
+})
+```
+
+### Search
+
+```typescript
+client.hadiths.search(
+  query: string,
+  options?: {
+    lang?: string
+    book?: number
+    limit?: number
+    offset?: number
+  }
+): Promise<PaginatedResponse<Hadith>>
+```
+
+**Example:**
+
+```javascript
+const results = await client.hadiths.search('prayer', {
+  lang: 'en',
+  limit: 10
+})
+```
+
+### Random
+
+```typescript
+client.hadiths.random(
+  options?: {
+    lang?: string | string[]
+    book?: number
+  }
+): Promise<Hadith>
+```
+
+## TypeScript Support
+
+Full TypeScript definitions included:
+
+```typescript
+import { MuminAPI, Hadith, Translation } from 'mumin-hadith-api'
+
+const client = new MuminAPI(process.env.MUMIN_API_KEY!)
+
+const hadith: Hadith = await client.hadiths.get(1)
+const translation: Translation = hadith.translations.en
+```
+
+## Error Handling
+
+```javascript
+import { MuminAPIError } from 'mumin-hadith-api'
+
+try {
+  const hadith = await client.hadiths.get(99999)
+} catch (error) {
+  if (error instanceof MuminAPIError) {
+    console.error('API Error:', error.code)
+    console.error('Message:', error.message)
+    console.error('Request ID:', error.requestId)
+  }
+}
+```
+
+## React Integration
+
+```jsx
+import { useMumin } from 'mumin-hadith-api/react'
+
+function HadithOfTheDay() {
+  const { data: hadith, loading, error } = useMumin(
+    (client) => client.hadiths.random({ lang: 'en' }),
+    { refreshInterval: 86400000 } // Refresh daily
+  )
+
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error.message}</div>
+
+  return (
+    <div>
+      <h2>Hadith of the Day</h2>
+      <p>{hadith.translations.en.text}</p>
+      <small>— {hadith.translations.en.narrator}</small>
+    </div>
+  )
+}
+```
+
+## Examples
+
+Find complete examples in the [GitHub repository](https://github.com/mumin-api/js-sdk/tree/main/examples):
+
+- Basic usage
+- React app
+- Vue app
+- Express.js API
+- Next.js integration
+- Discord bot
+
+## License
+
+MIT License

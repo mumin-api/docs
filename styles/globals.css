@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --emerald-900: #064e3b;
+        --emerald-600: #059669;
+        --gold-500: #f59e0b;
+        --sapphire-900: #1e3a8a;
+        --ivory: #fafaf9;
+        --charcoal: #18181b;
+    }
+
+    body {
+        @apply bg-sand text-charcoal font-body antialiased;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-sand;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-emerald-900/20 rounded-full;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-emerald-900/40;
+    }
+}
+
+@layer components {
+
+    /* Nextra overrides */
+    .nextra-content {
+        @apply max-w-5xl;
+    }
+
+    .nextra-nav-container {
+        @apply border-b border-emerald-900/10 bg-white/90 backdrop-blur-sm;
+    }
+
+    .nextra-sidebar {
+        @apply border-r border-emerald-900/10;
+    }
+
+    .nextra-sidebar-container {
+        @apply bg-white;
+    }
+
+    /* Code blocks */
+    .nextra-code-block {
+        @apply rounded-xl overflow-hidden shadow-islamic;
+    }
+
+    pre {
+        @apply bg-charcoal text-ivory p-4 rounded-xl !important;
+    }
+
+    code {
+        @apply text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded text-sm font-mono;
+    }
+
+    pre code {
+        @apply text-ivory bg-transparent p-0;
+    }
+
+    /* Tables */
+    table {
+        @apply w-full border-collapse my-6;
+    }
+
+    thead {
+        @apply bg-emerald-50 border-b-2 border-emerald-900/20;
+    }
+
+    th {
+        @apply px-4 py-3 text-left font-accent text-emerald-900;
+    }
+
+    td {
+        @apply px-4 py-3 border-b border-emerald-900/10;
+    }
+
+    /* Links */
+    .nextra-content a {
+        @apply text-emerald-600 hover:text-emerald-700 underline decoration-emerald-300 underline-offset-2 transition-colors;
+    }
+
+    /* Callouts */
+    .nextra-callout {
+        @apply rounded-xl border-l-4 p-4 my-6;
+    }
+
+    .nextra-callout.info,
+    .nextra-callout-info {
+        @apply bg-sapphire-50 border-sapphire-500;
+    }
+
+    .nextra-callout.warning,
+    .nextra-callout-warning {
+        @apply bg-gold-50 border-gold-500;
+    }
+
+    .nextra-callout.error,
+    .nextra-callout-error {
+        @apply bg-rose-50 border-rose-500;
+    }
+
+    /* Button styles */
+    .btn-primary {
+        @apply px-6 py-3 bg-emerald-900 hover:bg-emerald-800 text-ivory rounded-lg font-accent transition-colors inline-flex items-center space-x-2;
+    }
+
+    .btn-secondary {
+        @apply px-6 py-3 bg-white hover:bg-sand border border-emerald-900/20 text-emerald-900 rounded-lg font-accent transition-colors inline-flex items-center space-x-2;
+    }
+
+    /* Card styles */
+    .doc-card {
+        @apply p-6 bg-white border border-emerald-900/10 rounded-xl hover:border-gold-500/30 hover:shadow-lg transition-all;
+    }
+
+    /* Islamic decorative elements */
+    .islamic-divider {
+        @apply flex items-center justify-center my-8;
+    }
+
+    .islamic-divider::before,
+    .islamic-divider::after {
+        content: '';
+        @apply flex-1 border-t border-emerald-900/10;
+    }
+
+    .islamic-divider span {
+        @apply px-4 text-gold-500 text-2xl;
+    }
+
+    /* Glassmorphism */
+    .glass {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(6, 78, 59, 0.1);
+    }
+}
+
+/* Font imports are in theme.config.tsx head */

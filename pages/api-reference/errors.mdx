@@ -1,0 +1,177 @@
+---
+title: Error Codes
+description: Complete list of API error codes
+---
+
+import { ResponseExample } from '@/components/ResponseExample'
+import { Callout } from 'nextra/components'
+
+# Error Codes
+
+All API errors follow a consistent format with actionable error codes.
+
+## Error Response Format
+
+<ResponseExample
+  status={401}
+  data={{
+    statusCode: 401,
+    error: "UNAUTHORIZED",
+    message: "Invalid API key",
+    requestId: "req_abc123",
+    timestamp: "2024-01-10T12:00:00Z"
+  }}
+/>
+
+## Authentication Errors (401)
+
+### MISSING_API_KEY
+
+**Cause:** Authorization header not provided
+
+**Solution:**
+```javascript
+fetch('https://api.mumin.ink/v1/hadiths/1', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY' // ← Add this
+  }
+})
+```
+
+### INVALID_API_KEY
+
+**Cause:** API key is invalid or has been revoked
+
+**Solution:** Generate a new API key in your [dashboard](https://dashboard.mumin.ink/api-keys)
+
+### EXPIRED_API_KEY
+
+**Cause:** API key has expired
+
+**Solution:** Create a new API key
+
+## Rate Limit Errors (429)
+
+### RATE_LIMIT_EXCEEDED
+
+**Cause:** Too many requests in a short period
+
+**Solution:**
+- Wait for the rate limit to reset (see `X-RateLimit-Reset` header)
+- Implement exponential backoff
+- Upgrade your plan for higher limits
+
+```javascript
+// Check rate limit headers
+const response = await fetch('...')
+const remaining = response.headers.get('X-RateLimit-Remaining')
+const reset = response.headers.get('X-RateLimit-Reset')
+
+if (remaining === '0') {
+  console.log(`Rate limit resets at: ${new Date(reset * 1000)}`)
+}
+```
+
+## Payment Errors (402)
+
+### BALANCE_DEPLETED
+
+**Cause:** API key balance is zero
+
+**Solution:** [Top up credits](https://dashboard.mumin.ink/billing)
+
+## Validation Errors (400)
+
+### INVALID_HADITH_ID
+
+**Cause:** Hadith ID out of range (1-7563)
+
+<ResponseExample
+  status={400}
+  data={{
+    statusCode: 400,
+    error: "INVALID_HADITH_ID",
+    message: "Hadith ID must be between 1 and 7563",
+    received: 99999
+  }}
+/>
+
+### INVALID_LANGUAGE_CODE
+
+**Cause:** Unsupported language code
+
+**Supported:** `ar`, `en`, `ru`, `uz`
+
+## Resource Errors (404)
+
+### NOT_FOUND
+
+**Cause:** Requested resource doesn't exist
+
+<ResponseExample
+  status={404}
+  data={{
+    statusCode: 404,
+    error: "NOT_FOUND",
+    message: "Hadith with ID 99999 not found"
+  }}
+/>
+
+## Server Errors (500)
+
+### INTERNAL_SERVER_ERROR
+
+**Cause:** Unexpected server error
+
+**What to do:**
+1. Retry the request
+2. Check [status page](https://status.mumin.ink)
+3. Contact support with `requestId`
+
+## Retry Logic Example
+
+```javascript
+async function fetchWithRetry(url, options, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const response = await fetch(url, options)
+
+      if (response.ok) {
+        return await response.json()
+      }
+
+      // Rate limit - wait and retry
+      if (response.status === 429) {
+        const resetTime = response.headers.get('X-RateLimit-Reset')
+        const waitMs = resetTime * 1000 - Date.now()
+        await new Promise(resolve => setTimeout(resolve, waitMs))
+        continue
+      }
+
+      // Server error - exponential backoff
+      if (response.status >= 500) {
+        const delay = Math.pow(2, i) * 1000 // 1s, 2s, 4s
+        await new Promise(resolve => setTimeout(resolve, delay))
+        continue
+      }
+
+      // Client error - don't retry
+      throw new Error(`HTTP ${response.status}`)
+    } catch (error) {
+      if (i === maxRetries - 1) throw error
+    }
+  }
+}
+```
+
+## HTTP Status Code Summary
+
+| Code | Name                  | Description          |
+| ---- | --------------------- | -------------------- |
+| 200  | OK                    | Request successful   |
+| 400  | Bad Request           | Invalid parameters   |
+| 401  | Unauthorized          | Invalid API key      |
+| 402  | Payment Required      | Insufficient balance |
+| 404  | Not Found             | Resource not found   |
+| 429  | Too Many Requests     | Rate limit exceeded  |
+| 500  | Internal Server Error | Server error         |

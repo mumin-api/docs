@@ -1,0 +1,67 @@
+---
+title: List Hadiths
+description: Get a paginated list of hadiths
+---
+
+import { ApiEndpoint } from '@/components/ApiEndpoint'
+import { InteractiveExample } from '@/components/InteractiveExample'
+
+# List Hadiths
+
+Retrieve a paginated list of hadiths with optional filtering by collection and book.
+
+<ApiEndpoint method="GET" path="/hadiths" auth="required" />
+
+## Query Parameters
+
+| Parameter      | Type    | Default | Description                                   |
+| -------------- | ------- | ------- | --------------------------------------------- |
+| `language`     | string  | `"en"`  | Language code                                 |
+| `collection`   | string  | -       | Filter by collection slug (e.g., `sahih-bukhari`) |
+| `bookNumber`   | integer | -       | Filter by book number                         |
+| `hadithNumber` | integer | -       | Filter by hadith number                       |
+| `page`         | integer | `1`     | Page number                                   |
+| `limit`        | integer | `20`    | Results per page (max 100)                    |
+
+## Response
+
+Returns a paginated response object.
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "collection": "Sahih al-Bukhari",
+      "collectionId": 1,
+      "bookNumber": 1,
+      "hadithNumber": 1,
+      "arabicText": "...",
+      "translation": {
+        "text": "..."
+      }
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 50000,
+    "totalPages": 2500,
+    "hasNext": true,
+    "hasPrev": false
+  }
+}
+```
+
+## Try It Live! 📚
+
+<InteractiveExample
+  method="GET"
+  endpoint="/hadiths"
+  queryParams={[
+    { name: 'language', value: 'en', type: 'text' },
+    { name: 'collection', value: 'sahih-bukhari', type: 'text' },
+    { name: 'page', value: '1', type: 'number' }
+  ]}
+  requiresAuth={true}
+/>

@@ -1,0 +1,61 @@
+---
+title: Get Hadith by ID
+description: Retrieve a single hadith with translations
+---
+
+import { ApiEndpoint } from '@/components/ApiEndpoint'
+import { ResponseExample } from '@/components/ResponseExample'
+import { InteractiveExample } from '@/components/InteractiveExample'
+import { LanguageTabs, Tab } from '@/components/LanguageTabs'
+
+# Get Hadith by ID
+
+Retrieve a single hadith with its translations in specified language.
+
+<ApiEndpoint method="GET" path="/hadiths/:id" auth="required" />
+
+## Path Parameters
+
+| Parameter | Type    | Description                          |
+| --------- | ------- | ------------------------------------ |
+| `id`      | integer | **Required.** The hadith ID          |
+
+## Query Parameters
+
+| Parameter  | Type    | Default | Description          |
+| ---------- | ------- | ------- | -------------------- |
+| `language` | string  | `"en"`  | Language code        |
+
+## Response
+
+<ResponseExample
+  status={200}
+  data={{
+    id: 1,
+    collection: "Sahih al-Bukhari",
+    collectionId: 1,
+    bookNumber: 1,
+    hadithNumber: 1,
+    arabicText: "إنما الأعمال بالنيات...",
+    arabicNarrator: "عمر بن الخطاب",
+    translation: {
+      id: 1,
+      languageCode: "en",
+      text: "Actions are but by intentions...",
+      narrator: "Umar ibn al-Khattab",
+      grade: "Sahih"
+    },
+    metadata: {}
+  }}
+/>
+
+## Try It Live! 🚀
+
+<InteractiveExample
+  method="GET"
+  endpoint="/hadiths/1"
+  queryParams={[
+    { name: 'language', value: 'en', type: 'text' }
+  ]}
+  requiresAuth={true}
+/>
