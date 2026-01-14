@@ -10,13 +10,16 @@ export const CookieBanner = () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/v1'
 
     useEffect(() => {
+        let isMounted = true;
         const checkConsent = async () => {
+            if (!isMounted) return;
             try {
                 // Check if user is logged in and has consent in DB
                 const res = await fetch(`${API_URL}/user/consent`, {
                     credentials: 'include',
                 })
 
+                if (!isMounted) return;
                 if (res.ok) {
                     const data = await res.json()
                     // If we have any consent data, don't show the banner
@@ -26,22 +29,24 @@ export const CookieBanner = () => {
                         setIsVisible(true)
                     }
                 } else if (res.status === 401) {
-                    // Not logged in - user said "everything behind login", 
-                    // but we might be at the login page itself.
-                    // For now, if not logged in, we check localStorage as a transition or show banner.
+                    // Not logged in
                     const localConsent = localStorage.getItem('mumin-cookie-consent')
                     if (!localConsent) {
                         setIsVisible(true)
                     }
                 }
             } catch (error) {
+                if (!isMounted) return;
                 console.error('Failed to fetch consent:', error)
             } finally {
-                setIsLoading(false)
+                if (isMounted) {
+                    setIsLoading(false)
+                }
             }
         }
 
         checkConsent()
+        return () => { isMounted = false; }
     }, [API_URL])
 
     const saveConsent = async (type: 'accepted' | 'declined') => {
