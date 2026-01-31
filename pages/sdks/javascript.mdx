@@ -11,11 +11,11 @@ import { Callout } from "nextra/components";
 
 <div className="flex gap-2 mt-4 mb-8">
   <img
-    src="https://img.shields.io/npm/v/@mumin/core?label=@mumin/core&style=flat-square&color=emerald"
-    alt="@mumin/core"
+    src="https://img.shields.io/npm/v/@mumin-api/core?label=@mumin-api/core&style=flat-square&color=emerald"
+    alt="@mumin-api/core"
   />
   <img
-    src="https://img.shields.io/npm/l/@mumin/core?style=flat-square&color=blue"
+    src="https://img.shields.io/npm/l/@mumin-api/core?style=flat-square&color=blue"
     alt="License"
   />
 </div>
@@ -28,24 +28,24 @@ The official Mumin SDK provides a verified, type-safe, and cached way to interac
   <Tab label="npm">
     ```bash
     # Core (Node.js / Vanilla JS)
-    npm install @mumin/core
+    npm install @mumin-api/core
 
     # React
-    npm install @mumin/react @mumin/core
+    npm install @mumin-api/react @mumin-api/core
 
     # Vue
-    npm install @mumin/vue @mumin/core
+    npm install @mumin-api/vue @mumin-api/core
     ```
 
   </Tab>
   <Tab label="pnpm">
     ```bash
-    pnpm add @mumin/core
+    pnpm add @mumin-api/core
     ```
   </Tab>
   <Tab label="yarn">
     ```bash
-    yarn add @mumin/core
+    yarn add @mumin-api/core
     ```
   </Tab>
 </LanguageTabs>
@@ -60,7 +60,7 @@ Suitable for server-side logic (Next.js API routes) or plain JavaScript apps.
 
 <CodePlayground
   language="javascript"
-  code={`import { MuminClient } from '@mumin/core'
+  code={`import { MuminClient } from '@mumin-api/core'
 
 const client = new MuminClient('YOUR_API_KEY')
 
@@ -101,7 +101,7 @@ Wrap your app in `MuminProvider`:
 
 ```tsx
 // App.tsx
-import { MuminProvider } from "@mumin/react";
+import { MuminProvider } from "@mumin-api/react";
 
 export default function App() {
   return (
@@ -115,7 +115,7 @@ export default function App() {
 ### Usage
 
 ```tsx
-import { useHadith } from "@mumin/react";
+import { useHadith } from "@mumin-api/react";
 
 function HadithCard() {
   const { data, loading, error } = useHadith(1);
@@ -143,7 +143,7 @@ Composables for Vue 3 applications.
 ```typescript
 // main.ts
 import { createApp } from "vue";
-import { MuminPlugin } from "@mumin/vue";
+import { MuminPlugin } from "@mumin-api/vue";
 
 const app = createApp(App);
 app.use(MuminPlugin, { apiKey: "YOUR_API_KEY" });
@@ -153,7 +153,7 @@ app.use(MuminPlugin, { apiKey: "YOUR_API_KEY" });
 
 ```vue
 <script setup>
-import { useHadith } from "@mumin/vue";
+import { useHadith } from "@mumin-api/vue";
 
 const { data, loading } = useHadith(1);
 </script>
@@ -171,7 +171,7 @@ const { data, loading } = useHadith(1);
 The SDK provides typed error classes:
 
 ```typescript
-import { AuthenticationError, RateLimitError } from "@mumin/core";
+import { AuthenticationError, RateLimitError } from "@mumin-api/core";
 
 try {
   await client.hadiths.get(1);
