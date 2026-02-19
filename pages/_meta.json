@@ -1,9 +1,5 @@
 {
-  "index": {
-    "title": "Home",
-    "type": "page",
-    "display": "hidden"
-  },
+  "index": "Home",
   "getting-started": "Getting Started",
   "guides": "Guides & Concepts",
   "api-reference": "API Reference",
