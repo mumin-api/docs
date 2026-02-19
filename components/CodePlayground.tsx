@@ -63,15 +63,18 @@ export function CodePlayground({
 
             // Mock MuminClient for the playground
             class MuminClient {
+                private apiKey: string;
                 constructor(apiKey: string) {
+                    this.apiKey = apiKey;
                     (mockConsole as any).log(`🚀 MuminClient initialized with key: ${apiKey.substring(0, 10)}...`)
                 }
                 hadiths = {
                     get: async (id: number) => {
                         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.mumin.ink/v1'
-                        const res = await fetch(`${baseUrl}/hadiths/${id}`)
+                        const res = await fetch(`${baseUrl}/hadiths/${id}`, {
+                            headers: { 'Authorization': `Bearer ${this.apiKey}` }
+                        })
                         const data = await res.json()
-                        // Add a helper so hadith.translation works (legacy/convenience)
                         if (data && data.translations && data.translations.en) {
                             Object.defineProperty(data, 'translation', {
                                 get: () => data.translations.en
@@ -81,7 +84,9 @@ export function CodePlayground({
                     },
                     random: async () => {
                         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.mumin.ink/v1'
-                        const res = await fetch(`${baseUrl}/hadiths/random`)
+                        const res = await fetch(`${baseUrl}/hadiths/random`, {
+                            headers: { 'Authorization': `Bearer ${this.apiKey}` }
+                        })
                         const data = await res.json()
                         if (data && data.translations && data.translations.en) {
                             Object.defineProperty(data, 'translation', {
