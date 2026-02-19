@@ -1,4 +1,14 @@
 {
-    "terms": "Terms of Service",
-    "privacy": "Privacy Policy"
+    "terms": {
+        "title": "Terms of Service",
+        "theme": {
+            "search": false
+        }
+    },
+    "privacy": {
+        "title": "Privacy Policy",
+        "theme": {
+            "search": false
+        }
+    }
 }
