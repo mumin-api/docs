@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "next-mdx-remote": "^6.0.0",
         "clsx": "^2.1.1",
         "date-fns": "^3.3.1",
         "framer-motion": "^11.0.3",
@@ -36,5 +37,8 @@
         "eslint-config-next": "14.1.0",
         "postcss": "^8.4.33",
         "tailwindcss": "^3.4.1"
+    },
+    "overrides": {
+        "next-mdx-remote": "^6.0.0"
     }
 }
