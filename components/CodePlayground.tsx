@@ -66,7 +66,8 @@ export function CodePlayground({
             }
 
             // Run code with mock console and classes
-            const fn = new Function('console', 'fetch', 'MuminClient', executableCode)
+            const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
+            const fn = new AsyncFunction('console', 'fetch', 'MuminClient', executableCode)
             await fn(mockConsole, fetch, MuminClient)
 
             setOutput(logs.join('\n') || '✅ Code executed successfully!')
