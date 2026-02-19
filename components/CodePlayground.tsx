@@ -39,9 +39,35 @@ export function CodePlayground({
                 warn: (...args: any[]) => logs.push('WARNING: ' + args.map(String).join(' ')),
             }
 
-            // Run code with mock console
-            const fn = new Function('console', 'fetch', currentCode)
-            await fn(mockConsole, fetch)
+            // Pre-process code: remove imports since they don't work in new Function()
+            // but we'll provide the necessary classes in the scope
+            const executableCode = currentCode
+                .split('\n')
+                .filter(line => !line.trim().startsWith('import'))
+                .join('\n')
+
+            // Mock MuminClient for the playground
+            class MuminClient {
+                constructor(apiKey: string) {
+                    (mockConsole as any).log(`🚀 MuminClient initialized with key: ${apiKey.substring(0, 10)}...`)
+                }
+                hadiths = {
+                    get: async (id: number) => {
+                        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.mumin.ink/v1'
+                        const res = await fetch(`${baseUrl}/hadiths/${id}`)
+                        return res.json()
+                    },
+                    random: async () => {
+                        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.mumin.ink/v1'
+                        const res = await fetch(`${baseUrl}/hadiths/random`)
+                        return res.json()
+                    }
+                }
+            }
+
+            // Run code with mock console and classes
+            const fn = new Function('console', 'fetch', 'MuminClient', executableCode)
+            await fn(mockConsole, fetch, MuminClient)
 
             setOutput(logs.join('\n') || '✅ Code executed successfully!')
         } catch (err: any) {
