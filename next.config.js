@@ -11,6 +11,6 @@ module.exports = withNextra({
         domains: ['api.mumin.ink'],
     },
     env: {
-        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/v1',
+        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://api.mumin.ink/v1',
     },
 })

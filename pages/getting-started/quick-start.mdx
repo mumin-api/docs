@@ -72,6 +72,10 @@ import { Col } from "@/components/Col";
     console.log(hadith.translation.text)`}
           runnable
         />
+
+        <Callout type="warning">
+          **ES Modules required:** Our SDK uses modern `import` syntax. If you get an error *'Cannot use import statement'*, make sure to add `"type": "module"` to your `package.json` or rename your file to `.mjs`.
+        </Callout>
       </Tab>
 
       <Tab label="Python">
