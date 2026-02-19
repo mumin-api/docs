@@ -34,9 +34,24 @@ export function CodePlayground({
             // Create a mock console that captures output
             const logs: string[] = []
             const mockConsole = {
-                log: (...args: any[]) => logs.push(args.map(String).join(' ')),
-                error: (...args: any[]) => logs.push('ERROR: ' + args.map(String).join(' ')),
-                warn: (...args: any[]) => logs.push('WARNING: ' + args.map(String).join(' ')),
+                log: (...args: any[]) => {
+                    const formatted = args.map(arg => 
+                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                    ).join(' ')
+                    logs.push(formatted)
+                },
+                error: (...args: any[]) => {
+                    const formatted = args.map(arg => 
+                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                    ).join(' ')
+                    logs.push('ERROR: ' + formatted)
+                },
+                warn: (...args: any[]) => {
+                    const formatted = args.map(arg => 
+                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+                    ).join(' ')
+                    logs.push('WARNING: ' + formatted)
+                },
             }
 
             // Pre-process code: remove imports since they don't work in new Function()
@@ -55,12 +70,25 @@ export function CodePlayground({
                     get: async (id: number) => {
                         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.mumin.ink/v1'
                         const res = await fetch(`${baseUrl}/hadiths/${id}`)
-                        return res.json()
+                        const data = await res.json()
+                        // Add a helper so hadith.translation works (legacy/convenience)
+                        if (data && data.translations && data.translations.en) {
+                            Object.defineProperty(data, 'translation', {
+                                get: () => data.translations.en
+                            })
+                        }
+                        return data
                     },
                     random: async () => {
                         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.mumin.ink/v1'
                         const res = await fetch(`${baseUrl}/hadiths/random`)
-                        return res.json()
+                        const data = await res.json()
+                        if (data && data.translations && data.translations.en) {
+                            Object.defineProperty(data, 'translation', {
+                                get: () => data.translations.en
+                            })
+                        }
+                        return data
                     }
                 }
             }
