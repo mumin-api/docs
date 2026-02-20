@@ -33,7 +33,6 @@ export function CodePlayground({
         try {
             // Create a mock console that captures output
             const logs: string[] = []
-            const logs: string[] = []
             const mockConsole = {
                 log: (...args: any[]) => {
                     const formatted = args.map(arg => {
