@@ -33,24 +33,31 @@ export function CodePlayground({
         try {
             // Create a mock console that captures output
             const logs: string[] = []
+            const logs: string[] = []
             const mockConsole = {
                 log: (...args: any[]) => {
-                    const formatted = args.map(arg => 
-                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
-                    ).join(' ')
+                    const formatted = args.map(arg => {
+                        if (arg === null) return 'null';
+                        if (arg === undefined) return 'undefined';
+                        return typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg);
+                    }).join(' ')
                     logs.push(formatted)
                 },
                 error: (...args: any[]) => {
-                    const formatted = args.map(arg => 
-                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
-                    ).join(' ')
-                    logs.push('ERROR: ' + formatted)
+                    const formatted = args.map(arg => {
+                        if (arg === null) return 'null';
+                        if (arg === undefined) return 'undefined';
+                        return typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg);
+                    }).join(' ')
+                    logs.push('🔴 ERROR: ' + formatted)
                 },
                 warn: (...args: any[]) => {
-                    const formatted = args.map(arg => 
-                        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
-                    ).join(' ')
-                    logs.push('WARNING: ' + formatted)
+                    const formatted = args.map(arg => {
+                        if (arg === null) return 'null';
+                        if (arg === undefined) return 'undefined';
+                        return typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg);
+                    }).join(' ')
+                    logs.push('🟡 WARNING: ' + formatted)
                 },
             }
 
@@ -71,29 +78,53 @@ export function CodePlayground({
                 hadiths = {
                     get: async (id: number) => {
                         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.mumin.ink/v1'
-                        const res = await fetch(`${baseUrl}/hadiths/${id}`, {
-                            headers: { 'Authorization': `Bearer ${this.apiKey}` }
-                        })
-                        const data = await res.json()
-                        if (data && data.translations && data.translations.en) {
-                            Object.defineProperty(data, 'translation', {
-                                get: () => data.translations.en
+                        try {
+                            const res = await fetch(`${baseUrl}/hadiths/${id}`, {
+                                headers: { 'Authorization': `Bearer ${this.apiKey}` }
                             })
+                            const json = await res.json()
+                            
+                            if (!json.success || !json.data) {
+                                throw new Error(json.error?.message || `Hadith ${id} not found`);
+                            }
+
+                            // SDK explicitly returns the .data part
+                            const result = json.data;
+                            
+                            // Add convenience property for docs compatibility
+                            if (result.translations && result.translations.en) {
+                                (result as any).translation = result.translations.en;
+                            }
+                            
+                            return result;
+                        } catch (e: any) {
+                            throw new Error(`API Error: ${e.message}`);
                         }
-                        return data
                     },
                     random: async () => {
                         const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api.mumin.ink/v1'
-                        const res = await fetch(`${baseUrl}/hadiths/random`, {
-                            headers: { 'Authorization': `Bearer ${this.apiKey}` }
-                        })
-                        const data = await res.json()
-                        if (data && data.translations && data.translations.en) {
-                            Object.defineProperty(data, 'translation', {
-                                get: () => data.translations.en
+                        try {
+                            const res = await fetch(`${baseUrl}/hadiths/random`, {
+                                headers: { 'Authorization': `Bearer ${this.apiKey}` }
                             })
+                            const json = await res.json()
+
+                            if (!json.success || !json.data) {
+                                throw new Error(json.error?.message || 'Failed to fetch random hadith');
+                            }
+
+                            // SDK explicitly returns the .data part
+                            const result = json.data;
+                            
+                            // Add convenience property for docs compatibility
+                            if (result.translations && result.translations.en) {
+                                (result as any).translation = result.translations.en;
+                            }
+                            
+                            return result;
+                        } catch (e: any) {
+                            throw new Error(`API Error: ${e.message}`);
                         }
-                        return data
                     }
                 }
             }
