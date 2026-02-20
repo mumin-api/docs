@@ -335,7 +335,13 @@ export function InteractiveExample({
                             <SyntaxHighlighter
                                 language="json"
                                 style={oneDark}
-                                customStyle={{ margin: 0, background: 'transparent' }}
+                                customStyle={{ 
+                                    margin: 0, 
+                                    background: 'transparent',
+                                    whiteSpace: 'pre',
+                                    wordBreak: 'normal',
+                                    overflowWrap: 'normal',
+                                }}
                             >
                                 {JSON.stringify(response.body || response, null, 2)}
                             </SyntaxHighlighter>
