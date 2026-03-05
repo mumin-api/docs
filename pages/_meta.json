@@ -1,7 +1,10 @@
 {
   "index": "Home",
   "getting-started": "Getting Started",
-  "mumin-ai": "MuminAI Engine",
+  "mumin-ai": {
+    "title": "MuminAI Engine",
+    "type": "page"
+  },
   "guides": "Guides & Concepts",
   "api-reference": "API Reference",
   "sdks": "SDKs",
