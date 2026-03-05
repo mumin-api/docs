@@ -3,6 +3,7 @@
   "pagination": "Pagination",
   "caching": "Caching",
   "rate-limits": "Rate Limits",
+  "mumin-ai": "MuminAI Engine",
   "books": "Books & Collections",
   "errors": "Errors & Troubleshooting"
 }

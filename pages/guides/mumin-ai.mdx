@@ -1,0 +1,89 @@
+---
+title: MuminAI Scholarly Engine
+description: Intelligent context and explanations for sacred texts
+---
+
+import { Callout } from "nextra/components";
+import { Row } from "@/components/Row";
+import { Col } from "@/components/Col";
+import { ResponseExample } from "@/components/ResponseExample";
+
+# MuminAI Scholarly Engine
+
+MuminAI is our proprietary scholarly intelligence layer that provides deep, academic context for every hadith in our database. It is designed to bridge the gap between literal translation and scholarly understanding.
+
+## Why MuminAI? 🕌
+
+Translating hadiths is a complex task where literal meanings can sometimes be misunderstood without context. MuminAI consults classical commentaries (**Sharhs**) to provide:
+
+- **Historical Context**: Why and when the Prophet ﷺ said or did something.
+- **Linguistic Nuance**: Explanations of archaic Arabic terms.
+- **Legal Implications**: Brief insights into how scholars of different schools (Madhabs) understood the text.
+- **Practical Benefits**: How to apply the wisdom in modern daily life.
+
+## How it Works
+
+MuminAI is not a generic chatbot. It operates under a **9-layer Scholarly Constraint System** ensuring:
+
+1. **No Hallucinations**: Only documented classical sources are used.
+2. **Academic Neutrality**: Content follows the consensus (_Ijma_) of mainstream scholars.
+3. **Dual-Layer Analysis**: Provides both concise summaries and deep-dive explanations.
+
+---
+
+## Technical Integration
+
+Accessing MuminAI insights is effortless. Every hadith response now includes an enriched `metadata` object.
+
+### The Metadata Structure
+
+<ResponseExample
+  status={200}
+  data={{
+    id: 1,
+    collection: "Sahih al-Bukhari",
+    metadata: {
+      mumin_ai: {
+        status: "verified",
+        confidence: 0.99,
+        last_updated: "2026-03-05",
+        explanations: {
+          meaning: "This hadith establishes the core principle of sincerity...",
+          context:
+            "Narrated at the start of the Migration (Hijrah) to Madinah.",
+          legal: "Base for 70+ chapters of Fiqh according to Imam ash-Shafi'i.",
+          benefit: "Encourages self-reflection before any action.",
+        },
+        terms: [
+          { word: "Niyyah", meaning: "Intention or purpose of the heart" },
+        ],
+      },
+    },
+  }}
+/>
+
+---
+
+## Reliability Levels
+
+MuminAI content is tagged with certainty levels to help you present the data correctly to your users:
+
+| Level        | Description                                                       |
+| :----------- | :---------------------------------------------------------------- |
+| `Verified`   | Human-reviewed and cross-checked with multiple classical sources. |
+| `Stabilized` | High-confidence AI output based on consensus commentaries.        |
+| `Research`   | Initial context provided for recently digitized collections.      |
+
+<Callout type="tip">
+  **Pro Tip:** For premium applications, use the `confidence` score to decide
+  whether to show the "Deep Dive" section automatically or behind a "Learn More"
+  button.
+</Callout>
+
+## Ethical Guidelines
+
+When displaying MuminAI content, we require developers to:
+
+1. **Always show the Disclaimer**: State that the explanation is AI-assisted.
+2. **Provide a Feedback Loop**: Include a way for users to report inaccuracies.
+3. **Respect the Source**: Do not modify the scholarly meaning provided by the engine.
