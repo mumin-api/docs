@@ -64,18 +64,37 @@ const config: DocsThemeConfig = {
 
     useNextSeoProps() {
         const { asPath } = useRouter()
-        if (asPath !== '/') {
-            return {
-                titleTemplate: '%s – Mumin API Docs',
-            }
+        const siteUrl = 'https://docs.mumin.ink'
+        const canonical = `${siteUrl}${asPath === '/' ? '' : asPath}`
+        
+        return {
+            titleTemplate: asPath === '/' ? 'Mumin API – The Pulse of Authentic Islamic Knowledge' : '%s – Mumin API Docs',
+            description: 'Production-ready Islamic Hadith API with 40,000+ authentic hadiths and MuminAI scholarly context.',
+            canonical,
+            openGraph: {
+                url: canonical,
+                site_name: 'Mumin Hadith API',
+                images: [
+                    {
+                        url: `${siteUrl}/og-image.png`,
+                        width: 1200,
+                        height: 630,
+                        alt: 'Mumin Hadith API Documentation',
+                    }
+                ],
+            },
+            twitter: {
+                handle: '@mumin_api',
+                site: '@mumin_api',
+                cardType: 'summary_large_image',
+            },
         }
     },
 
     head: (
         <>
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <meta property="og:title" content="Mumin Hadith API Documentation" />
-            <meta property="og:description" content="Production-ready Islamic Hadith API with multi-language support" />
+            <meta name="robots" content="index, follow" />
             <link rel="icon" href="/favicon.ico" />
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
