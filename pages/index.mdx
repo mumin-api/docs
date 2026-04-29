@@ -7,178 +7,142 @@ import { IslamicHero } from "@/components/IslamicHero";
 import { QuickStartCards } from "@/components/QuickStartCards";
 import { FeatureGrid } from "@/components/FeatureGrid";
 import { CodePlayground } from "@/components/CodePlayground";
+import { StatsSection } from "@/components/StatsSection";
+import { TerminalPreview } from "@/components/TerminalPreview";
 import { UseCasesGrid } from "@/components/UseCasesGrid";
 import { PricingCards } from "@/components/PricingCards";
 import { Row } from "@/components/Row";
 import { Col } from "@/components/Col";
 
 <IslamicHero
-  title="Build with Authentic Islamic Content"
-  subtitle="Access 40,000+ authentic hadiths across 10 collections via REST API"
+  title="The Pulse of Authentic Islamic Knowledge"
+  subtitle="Connect your applications to 40,000+ verified hadiths across 10 core collections with MuminAI scholarly context."
   cta={{
-    text: "Get Started →",
+    text: "Claim Your API Key →",
     href: "/getting-started/quick-start",
   }}
 />
 
-## What is Mumin API?
+<StatsSection />
 
-Mumin API provides **production-ready access** to authentic Islamic hadith collections. Built with modern REST principles, enterprise security, and multi-language support.
+## The Developer Experience
 
-<CodePlayground
-  language="javascript"
-  code={`// Get a hadith in 3 lines
-const response = await fetch('https://api.mumin.ink/v1/hadiths/1', {
-  headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
-})
-const hadith = await response.json()
-console.log(hadith.translations.en.text)`}
-  runnable
-/>
+Mumin API is engineered for **modern engineering standards**. Access sacred texts with the same reliability as the world's leading fintech APIs.
+
+<TerminalPreview />
 
 <QuickStartCards />
 
-## Features
+## High-Performance Features
 
 <FeatureGrid
   items={[
     {
       icon: "⚡",
-      title: "Lightning Fast",
-      description: "Redis caching ensures &lt;50ms response times",
+      title: "Edge Cached",
+      description:
+        "Sub-50ms response times globally through our distributed Redis caching layer.",
     },
     {
       icon: "🌍",
-      title: "Multi-Language",
-      description: "2 Global Languages + AI Support",
+      title: "Universal Access",
+      description:
+        "Native Arabic and English support with AI-powered scholarly insights for 10+ languages.",
     },
     {
       icon: "🔐",
-      title: "Secure",
-      description: "API key auth with rate limiting",
+      title: "Enterprise Grade",
+      description:
+        "Mumin Shield protects every request with advanced fraud detection and rate limiting.",
     },
     {
-      icon: "📚",
-      title: "40,000+ Hadiths",
-      description: "10 core hadith collections",
+      icon: "🧬",
+      title: "Semantic Search",
+      description:
+        "Natural language queries using advanced Pinecone-powered vector embeddings.",
     },
     {
-      icon: "🚀",
-      title: "Developer Friendly",
-      description: "RESTful API with comprehensive docs",
+      icon: "🤖",
+      title: "MuminAI Built-In",
+      description:
+        "Scholarly metadata, historical context, and legal notes for every single hadith.",
     },
     {
-      icon: "💰",
-      title: "Pay as You Go",
-      description: "Only pay for what you use",
+      icon: "📦",
+      title: "Ready-to-Use SDKs",
+      description:
+        "Official SDKs for Node.js, Python, and Kotlin to minimize your time-to-market.",
     },
     {
       icon: "📊",
-      title: "Analytics",
-      description: "Track usage and performance",
+      title: "Real-time Metrics",
+      description:
+        "Deep observability into your API usage and geographical distribution via our Dashboard.",
     },
     {
       icon: "🛡️",
-      title: "99.9% Uptime",
-      description: "Enterprise-grade reliability",
+      title: "Authenticity First",
+      description:
+        "A 9-layer scholarly constraint system verifies every AI response against classical sources.",
     },
   ]}
 />
 
-## Quick Example
+<div className="islamic-divider">
+  <span>⬥</span>
+</div>
 
-Try this interactive example - it makes a **real API call**! 🚀
-
-import { InteractiveExample } from "@/components/InteractiveExample";
-
-<InteractiveExample
-  method="GET"
-  endpoint="/hadiths/random"
-  queryParams={[{ name: "lang", value: "en", type: "text" }]}
-  requiresAuth={true}
-/>
-
-## Why Mumin API?
+## Beyond the Literal Text
 
 <Row>
 <Col>
 
-### 🕌 Authentic Sources
+### 🕌 Scholarly Isnad
 
-All hadiths are from authentic collections like **Sahih al-Bukhari**, **Muslim**, and more.
+We don't just return text. We ensure the **Chain of Transmission** is respected. Every response includes collection metadata, book references, and scholar-verified gradings.
 
 </Col>
 <Col>
 
-### 🤖 MuminAI Scholarly Engine
+### 🤖 Intelligent Context
 
-Beyond dry text. Get **intelligent context, historical background, and legal nuances** for every hadith through our proprietary AI engine.
+Our **MuminAI Engine** consults classical commentaries (Sharh) to provide historical background, legal nuances, and practical benefits that go beyond dry translation.
 
 </Col>
 </Row>
 
-<Row>
-<Col>
+<div className="my-16 p-12 glass rounded-3xl text-center bg-gradient-islamic/5">
+  <h2 className="text-3xl font-display text-emerald-900 mb-6">
+    Built for the Global Ummah
+  </h2>
+  <p className="max-w-2xl mx-auto text-charcoal/70 mb-10 text-lg">
+    Join hundreds of developers building Islamic lifestyle apps, educational
+    portals, and research tools on the world's most reliable Hadith
+    infrastructure.
+  </p>
+  <div className="flex gap-4 justify-center">
+    <a
+      href="/getting-started/quick-start"
+      className="btn-primary shadow-glow-emerald"
+    >
+      Get Started for Free
+    </a>
+    <a href="/api-reference" className="btn-secondary">
+      Explore API Docs
+    </a>
+  </div>
+</div>
 
-### 🌐 Multi-Language Support
+<div className="islamic-divider">
+  <span>⬥</span>
+</div>
 
-Get hadiths in **Arabic** and **English** (Global) with AI-powered scholarly insights available for 10+ other languages including Russian, Uzbek, Turkish, and Urdu.
-
-</Col>
-<Col>
-
-### ⚡ Performance First
-
-- **Redis caching** for sub-50ms responses
-- **CDN distribution** worldwide
-- **PostgreSQL** with full-text search
-- **99.9% uptime** SLA
-
-</Col>
-</Row>
-
-<Row>
-<Col>
-
-### 🔒 Enterprise Security
-
-- **API key authentication**
-- **Rate limiting** (100 req/min)
-- **IP whitelisting**
-- **Fraud detection**
-- **Request logging** for chargeback defense
-
-</Col>
-<Col>
-
-### 🛡️ Scholarly Governance
-
-Each response undergoes a **9-layer Scholarly Constraint System** to ensure 100% authenticity and reliability in knowledge transmission.
-
-</Col>
-</Row>
-
-## Use Cases
-
-<UseCasesGrid />
-
-## Pricing
+## Pricing built for Growth
 
 <PricingCards />
 
-## Ready to start?
-
-<div className="mt-8 flex gap-4 justify-center">
-  <a href="/getting-started/quick-start" className="btn-primary">
-    Get Started →
-  </a>
-  <a href="/api-reference" className="btn-secondary">
-    API Reference
-  </a>
-</div>
-
 ---
 
-<div className="text-center text-sm text-charcoal/60 font-body mt-12">
-  Made with ❤️ for the Muslim community
+<div className="text-center text-sm text-charcoal/40 font-body mt-12 mb-8">
+  Excellence in Knowledge Transmission. Made with ❤️ for the Muslim Community.
 </div>

@@ -18,19 +18,19 @@ export function FeatureGrid({ items }: FeatureGridProps) {
             {items.map((item, index) => (
                 <motion.div
                     key={item.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="p-6 bg-white border border-emerald-900/10 rounded-xl hover:border-gold-500/30 hover:shadow-lg transition-all group"
+                    transition={{ delay: index * 0.05 }}
+                    className="p-8 glass rounded-2xl hover:border-gold-500/50 hover:shadow-glow-emerald transition-all duration-300 group cursor-default"
                 >
-                    <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">
+                    <div className="text-5xl mb-6 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300">
                         {item.icon}
                     </div>
-                    <h3 className="text-lg font-display text-emerald-900 mb-2">
+                    <h3 className="text-xl font-display text-emerald-900 mb-3 group-hover:text-emerald-700 transition-colors">
                         {item.title}
                     </h3>
-                    <p className="text-sm text-charcoal/60 font-body">
+                    <p className="text-sm text-charcoal/60 font-body leading-relaxed">
                         {item.description}
                     </p>
                 </motion.div>
