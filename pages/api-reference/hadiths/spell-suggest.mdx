@@ -1,0 +1,37 @@
+---
+title: Spell Check
+description: Suggest spelling corrections for search queries
+---
+
+import { ApiEndpoint } from "@/components/ApiEndpoint";
+import { InteractiveExample } from "@/components/InteractiveExample";
+
+# Spell Check Suggestion
+
+Suggests similar, correctly spelled words from the authenticated overall Hadith corpus using fuzzy and trigram validation for out-of-vocabulary inputs.
+
+<ApiEndpoint method="GET" path="/hadiths/spell" auth="required" />
+
+## Query Parameters
+
+| Parameter  | Type   | Required | Description                           |
+| :--------- | :----- | :------- | :------------------------------------ |
+| `q`        | string | Yes      | The misspelled query (e.g. `palying`) |
+| `language` | string | No       | The language code (default: `ru`)     |
+
+## Response
+
+Returns an array of suggested, correctly structured variations depending on frequency.
+
+```json
+["praying", "playing"]
+```
+
+## Try It Live! 🔤
+
+<InteractiveExample
+  method="GET"
+  endpoint="/hadiths/spell"
+  queryParams={[{ name: "q", value: "rpohet", type: "text" }]}
+  requiresAuth={true}
+/>

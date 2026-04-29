@@ -1,0 +1,57 @@
+---
+title: Semantic Search
+description: Semantic search hadiths by meaning using vector embeddings
+---
+
+import { ApiEndpoint } from '@/components/ApiEndpoint'
+import { InteractiveExample } from '@/components/InteractiveExample'
+
+# Semantic Search Hadiths
+
+Perform a powerful semantic search using Pinecone vector embeddings to find hadiths by meaning instead of exact keywords. This is ideal for natural language questions.
+
+<ApiEndpoint method="GET" path="/hadiths/semantic-search" auth="required" />
+
+## Query Parameters
+
+| Parameter | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `q` | string | Yes | The semantic query or question |
+| `language` | string | No | The language code for translations (default: `ru`) |
+| `limit` | integer | No | Maximum number of results to return (default: `10`) |
+
+## Response
+
+Returns an array of hadiths sorted by their vector similarity score.
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "collection": "Sahih al-Bukhari",
+      "bookNumber": 1,
+      "hadithNumber": 1,
+      "arabicText": "إنما الأعمال بالنيات...",
+      "translation": {
+        "languageCode": "en",
+        "text": "The reward of deeds depends upon the intentions..."
+      },
+      "similarity": 0.9234
+    }
+  ],
+  "total": 1
+}
+```
+
+## Try It Live! 🤖
+
+<InteractiveExample
+  method="GET"
+  endpoint="/hadiths/semantic-search"
+  queryParams={[
+    { name: 'q', value: 'reward for good intentions', type: 'text' },
+    { name: 'limit', value: 5, type: 'number' }
+  ]}
+  requiresAuth={true}
+/>

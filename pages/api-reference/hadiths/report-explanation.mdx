@@ -1,0 +1,38 @@
+---
+title: Report AI Explanation
+description: Report an error or inaccuracy in an AI explanation
+---
+
+import { ApiEndpoint } from "@/components/ApiEndpoint";
+
+# Report AI Explanation
+
+Submit corrections or report inaccuracies in MuminAI explanations. Given the significance of Islamic texts, user feedback is heavily relied upon to maintain quality control.
+
+<ApiEndpoint method="GET" path="/hadiths/:id/explain/report" auth="required" />
+
+## Path Parameters
+
+| Parameter | Type    | Required | Description                    |
+| :-------- | :------ | :------- | :----------------------------- |
+| `id`      | integer | Yes      | The ID of the Hadith to report |
+
+## Query Parameters
+
+| Parameter | Type   | Required | Description                            |
+| :-------- | :----- | :------- | :------------------------------------- |
+| `message` | string | Yes      | Description of the error or correction |
+
+## Response
+
+Returns feedback acknowledgment.
+
+```json
+{
+  "id": 105,
+  "explanationId": 1,
+  "message": "Typo in the legal context translation.",
+  "userId": 5,
+  "createdAt": "2026-05-15T10:00:00Z"
+}
+```

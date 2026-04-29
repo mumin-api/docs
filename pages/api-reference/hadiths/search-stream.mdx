@@ -1,0 +1,57 @@
+---
+title: Stream Search (SSE)
+description: Progressive Server-Sent Events (SSE) search for hadiths
+---
+
+import { ApiEndpoint } from "@/components/ApiEndpoint";
+
+# Stream Search (SSE)
+
+A low-latency streaming endpoint implementing Server-Sent Events (SSE). It returns hadiths as soon as they are found in the database, offering progressive rendering in frontend applications without waiting for the entire result set.
+
+<ApiEndpoint method="GET" path="/hadiths/search-stream" auth="required" />
+
+## Query Parameters
+
+| Parameter  | Type   | Required | Description                             |
+| :--------- | :----- | :------- | :-------------------------------------- |
+| `q`        | string | Yes      | The search query                        |
+| `language` | string | No       | The language code (default: `ru`)       |
+| `col`      | string | No       | Optional collection slug                |
+| `grade`    | string | No       | Filter by grading level (e.g., `sahih`) |
+
+## Response
+
+Instead of a standard JSON response, this endpoint streams data via `text/event-stream`.
+Clients will receive events containing matching hadiths.
+
+```text
+data: {"id":1,"collection":"Sahih al-Bukhari","arabicText":"...","translation":{"text":"...","grade":"Sahih","languageCode":"ru"}}
+
+data: {"id":2,"collection":"Sahih al-Bukhari","arabicText":"...","translation":{"text":"...","grade":"Sahih","languageCode":"ru"}}
+
+data: [DONE]
+```
+
+## Client Implementation Example
+
+```javascript
+const eventSource = new EventSource(
+  "https://api.mumin.ink/v1/hadiths/search-stream?q=prayer",
+);
+
+eventSource.onmessage = (event) => {
+  if (event.data === "[DONE]") {
+    eventSource.close();
+    return;
+  }
+
+  const hadith = JSON.parse(event.data);
+  console.log("Received:", hadith);
+};
+
+eventSource.onerror = (error) => {
+  console.error("SSE Error:", error);
+  eventSource.close();
+};
+```

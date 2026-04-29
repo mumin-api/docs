@@ -1,0 +1,38 @@
+---
+title: Stream AI Explanation (SSE)
+description: Progressively stream an AI explanation for a hadith
+---
+
+import { ApiEndpoint } from "@/components/ApiEndpoint";
+
+# Stream AI Explanation (SSE)
+
+Streams the generative text output of MuminAI, providing real-time rendering of scholarly explanations for a hadith as it is being processed by the backend.
+
+<ApiEndpoint method="GET" path="/hadiths/:id/explain-stream" auth="required" />
+
+## Path Parameters
+
+| Parameter | Type    | Required | Description          |
+| :-------- | :------ | :------- | :------------------- |
+| `id`      | integer | Yes      | The ID of the Hadith |
+
+## Query Parameters
+
+| Parameter  | Type   | Required | Description                                       |
+| :--------- | :----- | :------- | :------------------------------------------------ |
+| `language` | string | No       | Language code for the explanation (default: `ru`) |
+
+## Response
+
+Data chunks are streamed linearly via `text/event-stream`. MuminAI's JSON fragments are progressively repaired during generation.
+
+```text
+data: {"content":{"short_meaning":"Faith is buil"}}
+
+data: {"content":{"short_meaning":"Faith is built upon"}}
+
+data: {"content":{"short_meaning":"Faith is built upon basic principles."}}
+
+data: [DONE]
+```

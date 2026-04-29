@@ -1,0 +1,43 @@
+---
+title: Search Suggestions
+description: Get search suggestions based on topics
+---
+
+import { ApiEndpoint } from '@/components/ApiEndpoint'
+import { InteractiveExample } from '@/components/InteractiveExample'
+
+# Search Suggestions
+
+Provides topic-based autocomplete suggestions for hadith searches.
+
+<ApiEndpoint method="GET" path="/hadiths/suggestions" auth="required" />
+
+## Query Parameters
+
+| Parameter | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `q` | string | Yes | The partial search query |
+| `language` | string | No | The language code (default: `en`) |
+
+## Response
+
+Returns an array of suggested search concepts.
+
+```json
+[
+  "prayer",
+  "prayer times",
+  "prayer in congregation"
+]
+```
+
+## Try It Live! 💡
+
+<InteractiveExample
+  method="GET"
+  endpoint="/hadiths/suggestions"
+  queryParams={[
+    { name: 'q', value: 'pray', type: 'text' }
+  ]}
+  requiresAuth={true}
+/>

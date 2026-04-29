@@ -2,6 +2,13 @@
     "get-hadith": "Get Hadith",
     "list-hadiths": "List Hadiths",
     "search-hadiths": "Search Hadiths",
+    "search-stream": "Stream Search (SSE)",
+    "semantic-search": "Semantic Search",
+    "search-suggestions": "Search Suggestions",
+    "spell-suggest": "Spell Check",
     "random-hadith": "Random Hadith",
-    "daily-hadith": "Daily Hadith"
+    "daily-hadith": "Daily Hadith",
+    "ai-explanation": "AI Explanation",
+    "stream-explanation": "Stream AI Explanation (SSE)",
+    "report-explanation": "Report AI Explanation"
 }

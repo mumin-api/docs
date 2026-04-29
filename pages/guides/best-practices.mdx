@@ -175,7 +175,7 @@ const API_URL = process.env.NODE_ENV === 'production'
 ```javascript
 function validateHadithId(id) {
   const numId = parseInt(id)
-  if (isNaN(numId) || numId < 1 || numId > 7563) {
+  if (isNaN(numId) || numId < 1 || numId > 40000) {
     throw new Error('Invalid hadith ID')
   }
   return numId

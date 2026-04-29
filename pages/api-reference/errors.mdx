@@ -84,14 +84,14 @@ if (remaining === '0') {
 
 ### INVALID_HADITH_ID
 
-**Cause:** Hadith ID out of range (1-7563)
+**Cause:** Hadith ID out of range (1-40000)
 
 <ResponseExample
   status={400}
   data={{
     statusCode: 400,
     error: "INVALID_HADITH_ID",
-    message: "Hadith ID must be between 1 and 7563",
+    message: "Hadith ID must be between 1 and 40000",
     received: 99999
   }}
 />

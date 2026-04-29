@@ -1,0 +1,57 @@
+---
+title: AI Explanation
+description: Get AI explanation for a hadith
+---
+
+import { ApiEndpoint } from "@/components/ApiEndpoint";
+import { InteractiveExample } from "@/components/InteractiveExample";
+
+# Get AI Explanation
+
+Returns a detailed, scholarly-verified insight and contextual explanation for a given hadith using the proprietary MuminAI layer.
+
+<ApiEndpoint method="GET" path="/hadiths/:id/explain" auth="required" />
+
+## Path Parameters
+
+| Parameter | Type    | Required | Description          |
+| :-------- | :------ | :------- | :------------------- |
+| `id`      | integer | Yes      | The ID of the Hadith |
+
+## Query Parameters
+
+| Parameter  | Type   | Required | Description                                       |
+| :--------- | :----- | :------- | :------------------------------------------------ |
+| `language` | string | No       | Language code for the explanation (default: `en`) |
+
+## Response
+
+Returns the AI-augmented metadata explanation according to MuminAI rules.
+
+```json
+{
+  "id": 1,
+  "hadithId": 25,
+  "languageCode": "en",
+  "content": {
+    "short_meaning": "Faith is built upon foundations...",
+    "social_summary": "Pillars of Islam defined.",
+    "long_meaning": "A comprehensive discussion about...",
+    "context": "Context of narration...",
+    "legal_note": "Consensus on obligations...",
+    "benefit": "Guidance on practice.",
+    "certainty_level": "Verified"
+  },
+  "provider": "MuminAI",
+  "model": "Scholarly-v1"
+}
+```
+
+## Try It Live! 🧠
+
+<InteractiveExample
+  method="GET"
+  endpoint="/hadiths/1/explain"
+  queryParams={[{ name: "language", value: "en", type: "text" }]}
+  requiresAuth={true}
+/>
